@@ -1,12 +1,50 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <v-app-bar
+      app
+      color="grey darken-3"
+      dark
+    >
+      <v-spacer></v-spacer>
+      <NavBar :titles="titles" />
+
+      <v-spacer></v-spacer>
+
+
+    </v-app-bar>
+    <keep-alive>
+    <router-view name="locCentral" :samples="samples" :collec="collec" @send-lab="receiveVirus($event)" @store-virus="collec.push($event)"></router-view>
+    </keep-alive>
+      <v-main>
+      <router-view/>
+    </v-main>
+  </v-app>
 </template>
+
+<script>
+import NavBar from './components/NavBar.vue'
+import {viruses} from './model.js'
+
+export default {
+  name: 'App',
+  data : () => {
+    return {
+      titles : [ { text: "Home", color:"black", path:"/home"}, { text: "Lab", color:"blue", path:"/labo/slice"}, { text: "Library", color:"red", path:"/library/view"} ],
+      currentMenu : 0,
+      samples : [],
+      collec : viruses
+    }
+  },
+  components: {
+    NavBar
+  },
+  methods: {
+    receiveVirus : function(viruses) {
+      viruses.forEach(v => this.samples.push(v));
+    }
+  }
+}
+</script>
 
 <style>
 #app {
@@ -15,18 +53,6 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+  margin-top: 60px;
 }
 </style>
