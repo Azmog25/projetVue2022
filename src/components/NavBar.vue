@@ -2,7 +2,7 @@
   <div>
     <v-btn
         color="grey lighten-1"
-        flat
+        text
         v-for="(t,index) in titles" :key="index" :style="{color : t.color}" @click="$router.push({path:t.path})">{{t.text}}</v-btn>
   </div>
 </template>

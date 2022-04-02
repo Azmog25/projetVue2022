@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {viruses} from "@/model";
+import {viruses} from "../model";
 
 Vue.use(Vuex)
 
@@ -31,13 +31,9 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    virus(state) { return state.virus },
-    parts(state) { return state.parts },
-    samples(state) { return state.samples },
-    basket(state) { return state.basket },
+    getViruses(state) { return state.viruses },
+    getParts(state) { return state.parts },
+    getSamples(state) { return state.samples },
+    getBasket(state) { return state.basket },
   },
-  actions: {
-  },
-  modules: {
-  }
 })

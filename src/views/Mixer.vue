@@ -6,11 +6,11 @@
       </tr>
       <tr>
         <td>
-          <CheckedList :fields="['code']" :entries="parts" @chosen-changed="chosenParts = $event" />
+          <CheckedList :fields="['code']" @chosen-changed="chosenParts = $event" />
         </td>
       </tr>
     </v-data-table>
-    <button :disabled="chosenParts.length==0" @click="mix()">Mixing</button>
+    <button :disabled="chosenParts.length===0" @click="mix()">Mixing</button>
 
     <hr/>
     <button @click="$router.push({path:'/labo/slice'})">Go to slicer</button>
@@ -29,7 +29,6 @@
 
   export default {
     name: 'Mixer',
-    props: ['parts'],
     data : () => {
       return {
         chosenParts:[],
