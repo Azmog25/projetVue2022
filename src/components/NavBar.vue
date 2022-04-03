@@ -2,6 +2,7 @@
     <v-app-bar app>
         <v-toolbar-title>
           <router-link to="/home" tag="span" style="cursor: pointer">
+            <v-icon>{{ icon }}</v-icon>
             {{ appTitle }}
           </router-link>
         </v-toolbar-title>
@@ -20,6 +21,8 @@
 </template>
 
 <script>
+  import { mdiDoctor } from '@mdi/js';
+
   export default {
     name: 'NavBar',
     props: ['titles'],
@@ -27,6 +30,7 @@
       return {
         appTitle: 'Dr Mad',
         sidebar: false,
+        icon: mdiDoctor,
       }
     }
   }

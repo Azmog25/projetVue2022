@@ -22,10 +22,8 @@ export default new Vuex.Store({
             })
         },
 
-        setSample(state) {
-            state.basket.forEach(elem => {
-                state.samples.push(elem)
-            })
+        setSample(state, virus) {
+            state.samples.push(virus)
         },
 
         removeBasket(state) {

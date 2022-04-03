@@ -26,6 +26,18 @@
                 prepend-inner-icon="mdi-magnify"
                 label="Search"
             ></v-text-field>
+
+            <v-spacer></v-spacer>
+
+            <v-text-field
+                v-model="cutFactor"
+                clearable
+                flat
+                solo-inverted
+                hide-details
+                label="number of parts">
+            </v-text-field>
+
             <template v-if="$vuetify.breakpoint.mdAndUp">
               <v-spacer></v-spacer>
               <v-select
@@ -95,29 +107,15 @@
                       {{ virus[key] }}
                     </v-list-item-content>
                   </v-list-item>
-                  <v-list-item-action>
-                    <tbody>
-                    <th>
-                      <v-text-field
-                          v-model="search"
-                          clearable
-                          flat
-                          solo-inverted
-                          hide-details
-                          label="number of parts">
-                      </v-text-field>
-                    </th>
-                    <th>
-                      <v-btn large
-                             elevation="5"
-                             color="blue lighten-3"
-                             @click="cut()">
-                        <v-icon>{{ icons[0] }}</v-icon>
-                      </v-btn>
-                    </th>
-                    </tbody>
-                  </v-list-item-action>
                 </v-list>
+                <v-list-item-action>
+                  <v-btn large
+                         elevation="5"
+                         color="blue lighten-3"
+                         @click="chosenViruses.push(virus)">
+                    <v-icon>{{ icons[0] }}</v-icon>
+                  </v-btn>
+                </v-list-item-action>
               </v-card>
             </v-col>
           </v-row>
@@ -186,13 +184,15 @@
         </template>
       </v-data-iterator>
     </v-container>
-    <button @click="$router.push({path:'/labo/mix'})">Go to mixer</button>
+    <v-btn @click="cut()" elevation="10" color="red" large class="ma-5"><v-icon>{{ icons[0] }}</v-icon>cut and send to mixer</v-btn>
+    <v-spacer></v-spacer>
+    <v-btn @click="$router.push({path:'/labo/mix'})" large elevation="10" color="blue lighten-3"><v-icon>{{ icons[1] }}</v-icon> Go to mixer</v-btn>
   </div>
 </template>
 
 <script>
-  import CheckedList from '../components/CheckedList.vue'
   import {mdiContentCut, mdiPotMixOutline} from "@mdi/js";
+  import {Virus} from "../model";
 
   export default {
     name: 'Slicer',
@@ -244,13 +244,15 @@
         this.itemsPerPage = number
       },
       cut : function() {
+        console.log(this.chosenViruses)
         if (this.cutFactor === 0) return;
         this.chosenViruses.forEach(e => {
-          let s = this.samples[e];
-          for(let i=0;i<s.code.length;i+=this.cutFactor) {
-            this.parts.push({code : s.code.substring(i,i+this.cutFactor)});
+          for(let i=0;i<e.code.length;i+=this.cutFactor) {
+            this.$store.commit('addPart',{code : e.code.substring(i,i+this.cutFactor)});
           }
         });
+        console.log(this.$store.getters.getParts)
+
         // remove chosen viruses
         for(let i=this.chosenViruses.length-1;i>=0;i--) {
           this.$store.getters.getSamples.splice(this.chosenViruses[i],1);
@@ -272,7 +274,27 @@
             s.updateCaracs();
           }
         });
-      }
+      },
+      mix : function() {
+        let newCode="";
+
+        let chosen = [...this.chosenParts]; // real copy so that we can splice on the copy
+        let nb = chosen.length;
+        for(let i=0;i<nb;i++) {
+          // choose randomly a part among the selected ones
+          let idx = Math.floor(Math.random() * chosen.length);
+          let p = this.parts[chosen[idx]];
+          newCode = newCode+p.code;
+          chosen.splice(idx,1);
+        }
+        this.newVirus = new Virus(this.$store.getters.getViruses.length,'mixedvirus',newCode);
+        // remove chosen parts
+        for(let i=this.chosenParts.length-1;i>=0;i--) {
+          this.$store.getters.getParts.splice(this.chosenParts[i],1);
+        }
+        // unselect all
+        this.chosenParts.splice(0,this.chosenParts.length)
+      },
     }
   }
 </script>
