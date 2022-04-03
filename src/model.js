@@ -16,10 +16,10 @@ class Virus {
   }
 
   updateCaracs() {
-    if (this.temperature.length != 0) {
+    if (this.temperature.length !== 0) {
       this.temperature.splice(0,this.temperature.length);
     }
-    if (this.virulence.length != 0) {
+    if (this.virulence.length !== 0) {
       this.virulence.splice(0,this.virulence.length);
     }
     this.updateTemperature();

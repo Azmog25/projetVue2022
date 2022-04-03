@@ -3,7 +3,7 @@
     <v-container fluid>
       <v-data-iterator
         :items="viruses"
-        :items-per-page="itemsPerPage"
+        :items-per-page.sync="itemsPerPage"
         :page.sync="page"
         :search="search"
         :sort-by="sortBy.toLowerCase()"
@@ -62,11 +62,11 @@
           </v-toolbar>
         </template>
 
-        <template>
+        <template v-slot:default>
           <v-row>
             <v-col
-              v-for="virus in $store.getters.getViruses"
-              :key="virus.name"
+              v-for="virus in viruses"
+              :key="virus.id"
               cols="12"
               sm="6"
               md="4"

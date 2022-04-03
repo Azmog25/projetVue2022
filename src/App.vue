@@ -24,12 +24,15 @@
 <script>
 import NavBar from './components/NavBar.vue'
 import {viruses} from './model.js'
+import { mdiBeakerOutline } from '@mdi/js'
+import { mdiHome } from '@mdi/js'
+import { mdiLibraryOutline } from '@mdi/js'
 
 export default {
   name: 'App',
   data : () => {
     return {
-      titles : [ { text: "Home", color:"black", path:"/home"}, { text: "Lab", color:"blue", path:"/labo/slice"}, { text: "Library", color:"red", path:"/library/view"} ],
+      titles : [ { text: "Home", icon: mdiHome, path:"/home"}, { text: "Lab", icon: mdiBeakerOutline, path:"/labo/slice"}, { text: "Library", icon: mdiLibraryOutline, path:"/library/view"} ],
       currentMenu : 0,
       samples : [],
       collec : viruses

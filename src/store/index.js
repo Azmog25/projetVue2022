@@ -30,6 +30,10 @@ export default new Vuex.Store({
 
         removeBasket(state) {
             state.basket.splice(0)
+        },
+
+        addToBasket(state, virus) {
+            state.basket.push(virus)
         }
     },
     getters: {
