@@ -4,7 +4,7 @@
       <h1>Labo</h1>
     </v-flex>
     <v-flex xs12 sm6 align-self-center mt-3>
-      <v-data-table border="1">
+      <table border="1">
         <tr>
           <td>
             <keep-alive include="Mixer">
@@ -12,7 +12,7 @@
             </keep-alive>
           </td>
         </tr>
-      </v-data-table>
+      </table>
     </v-flex>
   </div>
 </template>

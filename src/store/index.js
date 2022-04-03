@@ -31,7 +31,7 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    virus(state) { return state.virus },
+    getviruses(state) { return state.viruses },
     parts(state) { return state.parts },
     samples(state) { return state.samples },
     basket(state) { return state.basket },
