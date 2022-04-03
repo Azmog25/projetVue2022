@@ -16,8 +16,10 @@ export default new Vuex.Store({
             state.parts.push(part)
         },
 
-        addVirus(state, virus) {
-            state.basket.push(virus)
+        addVirus(state) {
+            state.basket.forEach(elem => {
+                state.viruses.push(elem)
+            })
         },
 
         setSample(state) {

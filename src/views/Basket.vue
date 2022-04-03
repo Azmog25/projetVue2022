@@ -7,7 +7,7 @@
         <td>{{v.name}}</td><td>{{v.code}}</td><td>{{v.mortalite}}</td>
       </tr>
     </table>
-    <button @click="sendToLab($event)">Send to the lab</button>
+    <button @click="sendToLab">Send to the lab</button>
   </div>
 </template>
 
@@ -17,10 +17,9 @@
   export default {
     name: 'Basket',
     methods: {
-      sendToLab(virus) {
+      sendToLab() {
+        this.$store.commit('addVirus', this.$store.getters.getBasket)
         this.$store.commit('removeBasket')
-        console.log(virus)
-        this.$store.commit('addVirus', virus)
       }
     },
     watch: {
