@@ -1,9 +1,13 @@
 <template>
   <div>
-    <table>
-      <tr><td>Name</td><td>Code</td><td>% Mortality</td></tr>
-      <tr v-for="(v,index) in listViruses" :key="index"><td>{{v.name}}</td><td>{{v.code}}</td><td>{{v.mortalite}}</td><td> <button @click="$store.commit('addToBasket', v)">Clone virus for the lab</button></td></tr>
-    </table>
+    <v-simple-table>
+      <thead>
+        <tr><th>Name</th><th>Code</th><th>% Mortality</th></tr>
+      </thead>
+      <tbody>
+        <tr v-for="(v,index) in listViruses" :key="index"><th>{{v.name}}</th><th>{{v.code}}</th><th>{{v.mortalite}}</th><th> <v-btn @click="$store.commit('addToBasket', v)">Clone virus for the lab</v-btn></th></tr>
+      </tbody>
+    </v-simple-table>
   </div>
 </template>
 
