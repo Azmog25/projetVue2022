@@ -7,12 +7,12 @@
       </tr>
       <tr>
         <td>
-          <CheckedList :fields="['name','code']" :entries="samples" @chosen-changed="chosenViruses = $event" />
+          <CheckedList :fields="['name','code']" @chosen-changed="chosenViruses = $event" />
         </td>
       </tr>
     </table>
-    <label for="cut">part length: </label><input id="cut" v-model.number="cutFactor"><button :disabled="chosenViruses.length==0" @click="cut()">Cut</button>
-    <label for="mute">nb mutations: </label><input id="mute" v-model.number="nbMutation"><button :disabled="chosenViruses.length==0" @click="mutation()">Mutation</button>
+    <label for="cut">part length: </label><input id="cut" v-model.number="cutFactor"><button :disabled="chosenViruses.length===0" @click="cut()">Cut</button>
+    <label for="mute">nb mutations: </label><input id="mute" v-model.number="nbMutation"><button :disabled="chosenViruses.length===0" @click="mutation()">Mutation</button>
     <hr/>
     <button @click="$router.push({path:'/labo/mix'})">Go to mixer</button>
   </div>
@@ -23,7 +23,6 @@
 
   export default {
     name: 'Slicer',
-    props: ['samples', 'parts'],
     data : () => {
       return {
         chosenViruses:[],
@@ -36,7 +35,7 @@
     },
     methods: {
       cut : function() {
-        if (this.cutFactor == 0) return;
+        if (this.cutFactor === 0) return;
         this.chosenViruses.forEach(e => {
           let s = this.samples[e];
           for(let i=0;i<s.code.length;i+=this.cutFactor) {
@@ -45,13 +44,13 @@
         });
         // remove chosen viruses
         for(let i=this.chosenViruses.length-1;i>=0;i--) {
-          this.samples.splice(this.chosenViruses[i],1);
+          this.$store.getters.getSamples.splice(this.chosenViruses[i],1);
         }
         // unselect all
         this.chosenViruses.splice(0,this.chosenViruses.length)
       },
       mutation : function() {
-        if (this.nbMutation == 0) return;
+        if (this.nbMutation === 0) return;
 
         this.chosenViruses.forEach(e => {
           let newCode;

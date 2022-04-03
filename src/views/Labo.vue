@@ -8,7 +8,7 @@
         <tr>
           <td>
             <keep-alive include="Mixer">
-              <router-view name="locSubCentral" :parts="parts" :samples="samples" @store-virus="$emit('store-virus',$event)"></router-view>
+              <router-view name="locSubCentral"></router-view>
             </keep-alive>
           </td>
         </tr>
@@ -18,34 +18,28 @@
 </template>
 
 <script>
-  import {Virus, viruses} from '@/model'
+  import {Virus} from '../model.js'
 
   export default {
     name: 'Labo',
-    props: ['samples'],
-    data : () => {
-      return {
-        parts : []
-      }
-    },
     methods: {
       cut : function() {
-        if (this.cutFactor == 0) return;
+        if (this.cutFactor === 0) return;
         this.chosenViruses.forEach(e => {
           let s = this.samples[e];
           for(let i=0;i<s.code.length;i+=this.cutFactor) {
-            this.parts.push({code : s.code.substring(i,i+this.cutFactor)});
+            this.$store.commit('addPart',{code : s.code.substring(i,i+this.cutFactor)});
           }
         });
         // remove chosen viruses
         for(let i=this.chosenViruses.length-1;i>=0;i--) {
-          this.samples.splice(this.chosenViruses[i],1);
+          this.$store.getters.getSamples.splice(this.chosenViruses[i],1);
         }
         // unselect all
         this.chosenViruses.splice(0,this.chosenViruses.length)
       },
       mutation : function() {
-        if (this.nbMutation == 0) return;
+        if (this.nbMutation === 0) return;
 
         this.chosenViruses.forEach(e => {
           let newCode;
@@ -71,10 +65,10 @@
           newCode = newCode+p.code;
           chosen.splice(idx,1);
         }
-        this.newVirus = new Virus(viruses.length,'mixedvirus',newCode);
+        this.newVirus = new Virus(this.$store.getters.getViruses.length,'mixedvirus',newCode);
         // remove chosen parts
         for(let i=this.chosenParts.length-1;i>=0;i--) {
-          this.parts.splice(this.chosenParts[i],1);
+          this.$store.getters.getParts.splice(this.chosenParts[i],1);
         }
         // unselect all
         this.chosenParts.splice(0,this.chosenParts.length)
