@@ -1,6 +1,5 @@
 <template>
     <v-app-bar app>
-      <v-toolbar>
         <v-toolbar-title>
           <router-link to="/home" tag="span" style="cursor: pointer">
             {{ appTitle }}
@@ -17,7 +16,6 @@
             {{ item.text }}
           </v-btn>
         </v-toolbar-items>
-      </v-toolbar>
     </v-app-bar>
 </template>
 
