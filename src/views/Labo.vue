@@ -62,7 +62,7 @@
           </v-toolbar>
         </template>
 
-        <template v-slot:default="">
+        <template>
           <v-row>
             <v-col
               v-for="virus in $store.getters.getViruses"
@@ -183,7 +183,7 @@
         keys: [
             'name',
             'code',
-            'mortality',
+            'mortalite',
         ],
         headers: [
           {
@@ -200,7 +200,6 @@
       filteredKeys() {
         return this.keys.filter(key => key !== 'Name')
       },
-
       numberOfPages () {
         return Math.ceil(this.viruses.length / this.itemsPerPage)
       },
