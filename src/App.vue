@@ -13,7 +13,7 @@
 
     </v-app-bar>
     <keep-alive>
-    <router-view name="locCentral" :samples="samples" :collec="collec" @send-lab="receiveVirus($event)" @store-virus="collec.push($event)"></router-view>
+    <router-view name="locCentral"></router-view>
     </keep-alive>
       <v-main>
       <router-view/>
@@ -23,7 +23,6 @@
 
 <script>
 import NavBar from './components/NavBar.vue'
-import {viruses} from './model.js'
 import { mdiBeakerOutline } from '@mdi/js'
 import { mdiHome } from '@mdi/js'
 import { mdiLibraryOutline } from '@mdi/js'
@@ -34,8 +33,6 @@ export default {
     return {
       titles : [ { text: "Home", icon: mdiHome, path:"/home"}, { text: "Lab", icon: mdiBeakerOutline, path:"/labo/slice"}, { text: "Library", icon: mdiLibraryOutline, path:"/library/view"} ],
       currentMenu : 0,
-      samples : [],
-      collec : viruses
     }
   },
   components: {
