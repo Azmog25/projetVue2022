@@ -184,7 +184,7 @@
         </template>
       </v-data-iterator>
     </v-container>
-    <v-btn @click="cut()" elevation="10" color="red" large class="ma-5"><v-icon>{{ icons[0] }}</v-icon>cut and send to mixer</v-btn>
+    <v-btn @click="cut()" elevation="10" :disabled="chosenViruses.length===0" color="red" large class="ma-5"><v-icon>{{ icons[0] }}</v-icon>cut and send to mixer</v-btn>
     <v-spacer></v-spacer>
     <v-btn @click="$router.push({path:'/labo/mix'})" large elevation="10" color="blue lighten-3"><v-icon>{{ icons[1] }}</v-icon> Go to mixer</v-btn>
   </div>

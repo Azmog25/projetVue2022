@@ -1,8 +1,8 @@
 <template>
   <div>
     <h1>Home</h1>
-    <p> Welcome to Dr Mad P4 laboratory. Here you can create the most monstruous viruses ever known</p>
-
+    <h4> Welcome to Dr Mad P4 laboratory. Here you can create the most monstruous viruses ever known</h4>
+    <v-spacer></v-spacer>
     <v-carousel
         cycle
         height="400"

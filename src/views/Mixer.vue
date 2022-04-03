@@ -1,44 +1,90 @@
 <template>
   <div>
-    <v-data-table border="0">
-      <tr>
-        <td><h1>Parts</h1></td>
-      </tr>
-      <tr>
-        <td>
-          <CheckedList :fields="['code']" @chosen-changed="chosenParts = $event" />
-        </td>
-      </tr>
-    </v-data-table>
-    <button :disabled="chosenParts.length===0" @click="mix()">Mixing</button>
+    <h1>Mixing</h1>
+    <v-simple-table border="0">
+      <thead>
+        <tr>
+          <th><h1>Parts</h1></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>
+            <h3 v-for="(e,index) in parts" :key="index">
+              <input type="checkbox" :id="index" :value="index" @change="bonjour(index)">
+              <label :for="index">{{parts[index].code}}</label>
+            </h3>
+          </th>
+        </tr>
+      </tbody>
+
+    </v-simple-table>
+    <v-btn @click="mix()">Mixing</v-btn>
 
     <hr/>
-    <button @click="$router.push({path:'/labo/slice'})">Go to slicer</button>
+    <v-btn @click="$router.push({path:'/labo/slice'})">Go to slicer</v-btn>
 
     <hr/>
-    <p v-if="newVirus != null">New virus: <input v-model="newVirus.name"> {{newVirus.code}} {{newVirus.mortalite}}
-    <button @click="sendToLibrary">Send to library</button>
-    </p>
+    <v-row>
+      <v-col
+          cols="12"
+          sm="6"
+          md="4"
+          lg="3"
+      >
+      <v-card elevation="20" v-if="newVirus != null">
+        <v-card-title class="subheading font-weight-bold">
+          New virus:
+        </v-card-title>
 
+        <v-divider></v-divider>
+
+        <v-list dense>
+          <v-list-item>
+            <v-list-item-content class="aligned-end">
+
+              <v-text-field v-model="newVirus.name"> </v-text-field>{{newVirus.code}} {{newVirus.mortalite}}
+
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+
+        <v-list-item-action>
+          <v-btn color="blue lighten-3" elevation="8" @click="sendToLibrary">Send to library
+
+            <v-icon>{{  }}</v-icon>
+
+          </v-btn>
+        </v-list-item-action>
+      </v-card>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
 <script>
   import {Virus, viruses} from '@/model'
-  import CheckedList from '../components/CheckedList.vue'
 
   export default {
     name: 'Mixer',
-    data : () => {
+    data() {
       return {
         chosenParts:[],
-        newVirus : null
+        newVirus : null,
+        parts: this.$store.getters.getParts
       }
     },
-    components: {
-      CheckedList
-    },
     methods: {
+      bonjour : function (index) {
+
+        if (this.chosenParts.includes(index)){
+          this.chosenParts.splice(this.chosenParts.indexOf(index))
+        }
+        else {
+          this.chosenParts.push(index)
+        }
+        console.log(this.chosenParts)
+      },
       mix : function() {
         let newCode="";
 
@@ -60,8 +106,10 @@
         this.chosenParts.splice(0,this.chosenParts.length)
       },
       sendToLibrary : function() {
-        this.$emit('store-virus',this.newVirus);
-        this.newVirus = null;
+        this.$store.commit("addVirusToLibrary",this.newVirus);
+        console.log("new" + this.newVirus)
+        //this.newVirus = null;
+
       }
     }
   }

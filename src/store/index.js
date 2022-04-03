@@ -21,6 +21,9 @@ export default new Vuex.Store({
                 state.viruses.push(elem)
             })
         },
+        addVirusToLibrary(state, virus) {
+            state.viruses.push(virus)
+        },
 
         setSample(state, virus) {
             state.samples.push(virus)

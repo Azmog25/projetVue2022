@@ -1,15 +1,15 @@
 <template>
   <div>
-    <table>
+    <v-simple-table>
       <tr>
-        <td>
-          <p v-for="(e,index) in entries" :key="index">
+        <th>
+          <h3 v-for="(e,index) in parts" :key="index">
             <input type="checkbox" :id="index" :value="index" v-model="chosenEntries" @change="$emit('chosen-changed',chosenEntries)">
             <label :for="index"><span v-for="(f,index) in fields" :key="index">{{e[f]}} </span></label>
-          </p>
-        </td>
+          </h3>
+        </th>
       </tr>
-    </table>
+    </v-simple-table>
   </div>
 </template>
 
@@ -18,9 +18,10 @@
   export default {
     name: 'CheckedList',
     props: ['entries','fields'],
-    data : () => {
+    data() {
       return {
-        chosenEntries:[]
+        chosenEntries:[],
+        parts: this.$store.getters.getParts
       }
     }
   }
